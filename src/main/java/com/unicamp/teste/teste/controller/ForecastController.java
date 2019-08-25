@@ -16,6 +16,6 @@ public class ForecastController {
 
     @GetMapping(path = "/forecast")
     public ResponseEntity<String> getForecast() {
-        return ResponseEntity.ok(forecastService.getForecast());
+        return ResponseEntity.ok(forecastService.getForecast("37.8267", "-122.4233", "2019-12-11"));
     }
 }

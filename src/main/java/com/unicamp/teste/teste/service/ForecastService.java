@@ -1,8 +1,13 @@
 package com.unicamp.teste.teste.service;
 
+import com.unicamp.teste.teste.entity.Data;
 import com.unicamp.teste.teste.entity.Forecast;
 import com.unicamp.teste.teste.integration.DarkskyClient;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Service
 public class ForecastService {
@@ -13,15 +18,21 @@ public class ForecastService {
         this.darkskyClient = darkskyClient;
     }
 
-    public String getForecast() {
-        Forecast forecast = new Forecast();
+    public String getForecast(String latitude, String longitude, String day) {
+        Forecast forecast;
         try {
-            forecast = darkskyClient.getForecast("41.39715", "2.160873");
-            System.out.println(forecast);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            LocalDate daySelected = LocalDate.parse(day);
 
-        return "ok";
+            Instant instant = daySelected.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            forecast = darkskyClient.getForecast(latitude, longitude, instant.getEpochSecond());
+        } catch (Exception e) {
+            throw new RuntimeException("Sorry, we had a problem. Please try again later");
+        }
+        String teste = "teste";
+        for (Data x : forecast.getDaily().getData()) {
+            teste = x.getSummary();
+        }
+        return teste;
     }
+
 }

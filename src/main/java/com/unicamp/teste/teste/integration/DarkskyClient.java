@@ -9,6 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface DarkskyClient {
 
     @GetMapping("${integration.client.darksky.uri.endpoint.forecast}")
-    Forecast getForecast(@PathVariable("lat") String lat, @PathVariable("lon") String lon);
-
+    Forecast getForecast(@PathVariable("latitude") String latitude, @PathVariable("longitude") String longitude, @PathVariable("time") long time);
 }
