@@ -6,7 +6,20 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8081/auth/realms/dev/protocol/openid-connect/token",
+			"name": "getToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa2fe81a-f226-4020-a1a3-9b3943e8ae59",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -62,18 +75,8 @@
 							"type": "text"
 						},
 						{
-							"key": "username",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "",
-							"type": "text"
-						},
-						{
 							"key": "client_secret",
-							"value": "0ac21e92-d857-421a-a15e-59a36f2fb551",
+							"value": "48fbf11e-42c9-4925-818b-afb2edbe4d9a",
 							"type": "text"
 						},
 						{
@@ -84,12 +87,16 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8081/auth/realms/dev/protocol/openid-connect/token",
-					"protocol": "http",
+					"raw": "https://inf332-keycloak.io.k8suni.ic.unicamp.br/auth/realms/dev/protocol/openid-connect/token",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"inf332-keycloak",
+						"io",
+						"k8suni",
+						"ic",
+						"unicamp",
+						"br"
 					],
-					"port": "8081",
 					"path": [
 						"auth",
 						"realms",
@@ -97,6 +104,114 @@
 						"protocol",
 						"openid-connect",
 						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBooking",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8180/api/v1/booking?latitude=37.87292&longitude=-122.4563&checkInDate=2019-12-11&checkOutDate=2019-12-15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"v1",
+						"booking"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "37.87292"
+						},
+						{
+							"key": "longitude",
+							"value": "-122.4563"
+						},
+						{
+							"key": "checkInDate",
+							"value": "2019-12-11"
+						},
+						{
+							"key": "checkOutDate",
+							"value": "2019-12-15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getForecast",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8180/api/v1/forecast?latitude=37.87292&longitude=-122.4563&dateIn=2019-12-11&dateOut=2019-12-15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"v1",
+						"forecast"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "37.87292"
+						},
+						{
+							"key": "longitude",
+							"value": "-122.4563"
+						},
+						{
+							"key": "dateIn",
+							"value": "2019-12-11"
+						},
+						{
+							"key": "dateOut",
+							"value": "2019-12-15"
+						}
 					]
 				}
 			},
