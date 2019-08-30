@@ -1,7 +1,10 @@
 package com.unicamp.teste.teste.service;
 
+import com.unicamp.teste.teste.entity.HotelOfferDTO;
 import com.unicamp.teste.teste.integration.AmadeusClient;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -12,8 +15,8 @@ public class BookingService {
         this.amadeusClient = amadeusClient;
     }
 
-    public String teste() {
+    public List<HotelOfferDTO> getHotelOffers(String latitude, String longitude, String checkInDate, String checkOutDate) {
 
-        return amadeusClient.getHotelOffers("52.5238", "13.3835", "2019-10-10", "2019-10-15");
+        return amadeusClient.getHotelOffers(latitude, longitude, checkInDate, checkOutDate);
     }
 }

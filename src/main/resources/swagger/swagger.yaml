@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  description: API de que disponibiliza recursos do App NoCLouds usando fluxo de codigo de acesso OAuth2.
+  version: "1.0"
+  title: INF332 2019 Grupo 3 Hackaton
+servers:
+  - url: http://inf332-hackaton-backend-grupo3.herokuapp.com/noclouds/v1
+tags:
+  - name: forecast
+  - name: booking
+
+paths:
+  /forecast:
+    get:
+      tags:
+        - forecast
+      summary: Obtem clima de local e data
+      description: Obtem informações sobre o clima de um dia e local.
+      parameters:
+        - name: idLat
+          in: query
+          description: Identificador de latitude
+          required: true
+          schema:
+            type: string
+            maximum: 10
+          examples:
+            data:
+              value: "37.8267"
+        - name: idLong
+          in: query
+          description: Identificador de longitude
+          required: true
+          schema:
+            type: string
+            maximum: 10
+          examples:
+            data:
+              value: "37.8267"
+        - name: dateIn
+          in: query
+          description: Data check-in
+          required: true
+          schema:
+            type: string
+            format: date
+            maximum: 10
+          examples:
+            data:
+              value: "2019-10-28"
+        - name: dateOut
+          in: query
+          description: Data check-out
+          required: true
+          schema:
+            type: string
+            format: date
+            maximum: 10
+          examples:
+            data:
+              value: "2019-10-28"
+      responses:
+        200:
+          description: Sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forecast"
+        401:
+          description: Não autorizado.
+        403:
+          description: Proibido
+        500:
+          description: Erro Interno
+  /booking:
+    get:
+      tags:
+        - booking
+      summary: Obtem quartos de local e data
+      description: Obtem informações sobre o quartos de um dia e local.
+      parameters:
+        - name: idLat
+          in: query
+          description: Identificador de latitude
+          required: true
+          schema:
+            type: string
+            maximum: 10
+          examples:
+            data:
+              value: "37.8267"
+        - name: idLong
+          in: query
+          description: Identificador de longitude
+          required: true
+          schema:
+            type: string
+            maximum: 10
+          examples:
+            data:
+              value: "37.8267"
+        - name: dateIn
+          in: query
+          description: Data check-in
+          required: true
+          schema:
+            type: string
+            format: date
+            maximum: 10
+          examples:
+            data:
+              value: "2019-10-28"
+        - name: dateOut
+          in: query
+          description: Data check-out
+          required: true
+          schema:
+            type: string
+            format: date
+            maximum: 10
+          examples:
+            data:
+              value: "2019-10-28"
+      responses:
+        200:
+          description: Sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+        401:
+          description: Não autorizado.
+        403:
+          description: Proibido
+        500:
+          description: Erro Interno
+components:
+  schemas:
+    Forecast:
+      type: object
+      required:
+        - minTemp
+        - maxTemp
+        - summary
+        - icon
+        - day
+      properties:
+        id:
+          type: string
+        minTemp:
+          type: string
+          description: Temperatura mínima
+        maxTemp:
+          type: string
+          description: Temperatura maxima
+        summary:
+          type: string
+          description: Sumario.
+        icon:
+          type: string
+          description: Ícone.
+        day:
+          type: string
+          description: Dia da previsão
+      example:
+        - id: "20190828"
+          minTemp: "21.5"
+          maxTemp: "22.5"
+          summary: "Mostly cloudy throughout the day."
+          icon: "partly-cloudy-day"
+          day: "2019-08-28"
+        - id: "20190829"
+          minTemp: "22.1"
+          maxTemp: "25"
+          summary: "Sunny day."
+          icon: "partly-sunny-day"
+          day: "2019-08-29"
+
+    Booking:
+      type: object
+      required:
+        - dateIn
+        - dateOut
+        - idLat
+        - idLong
+      properties:
+        idLat:
+          type: string
+          description: Identificador de latitude
+        idLong:
+          type: string
+          description: Identificador de longitude
+        dateIn:
+          type: string
+          description: Identificador de data checkin.
+        dateOut:
+          type: string
+          description: Identificador de data checkout.
+        hotel:
+          type: object
+          description: Entidade hotel.
+          properties:
+            name:
+              type: string
+              description: Nome do hotel
+            rating:
+              type: integer
+              description: Numero de estrelas do hotel
+            description:
+              type: string
+              description: Descrição do hotel
+            address:
+              type: string
+              description: Endereço do hotel
+            contact:
+              type: string
+              description: Contato.
+            offers:
+              type: object
+              description: Ofertas
+              properties:
+                id:
+                  type: string
+                room:
+                  type: string
+                  description: Quarto
+                price:
+                  type: number
+                  description: preço da oferta
+                guests:
+                  type: integer
+      example:
+        idLat: "69874"
+        idLong: "7845"
+        dateIn: "2019-08-28"
+        dateOut: "2019-08-29"
+        hotel:
+          name: "Majestic Palace Hotel"
+          rating: 7
+          address: "Avenida Jornalista Rubens de Arruda Ramos, 2746, Florianópolis, Santa Catarina 88015-010 Brasil"
+          contact: "Jamal Ferramario"
+          offers:
+            id: "ile578"
+            room: "48"
+            price: 352.98
+            guests: 2
