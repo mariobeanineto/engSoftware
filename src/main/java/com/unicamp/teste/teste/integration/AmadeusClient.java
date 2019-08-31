@@ -61,6 +61,7 @@ public class AmadeusClient {
         hotel.setRating(offerParam.getHotel().getRating().toString());
         hotel.setOffer(createOffer(offerParam));
         hotel.setHotelAddress(createHotelAddress(offerParam));
+        hotel.setName(offerParam.getHotel().getName());
         return hotel;
     }
 
